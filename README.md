@@ -1,5 +1,13 @@
 <h1 align="center">Unsed Module Extractor</h1>
 
+## Setup
+
+```zsh
+$ cd ~/
+$ git clone https://github.com/ogty/unused-module-extractor
+$ source ~/unused-module-extractor/setup.sh
+```
+
 ## Usage
 
 ```zsh
