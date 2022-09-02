@@ -33,14 +33,16 @@
 #     The "-D, --delete" option should be avoided if possible.
 #     If you do use it, please use it only in an environment where you can revert deleted files.
 
-NC="\033[0m"
+NO_COLOR="\033[0m"
 YELLOW="\033[1;33m"
 
 # Use single or double quotes, depending on the situation
-delimiter="'"               # Use single quotes by default
-outputFileName="unused.txt" # default output file name
-confirm=false               # default is not to confirm deletion
+delimiter="'"                # Use single quotes by default
+outputFileName="unused.txt"  # default output file name
+confirm=false                # default is not to confirm deletion
 
+ignoreFiles=("env.d.ts")     # Ignore files
+ignoreDirectories=("pages")  # Ignore directories
 usingModulePaths=()
 targetFilePaths=()
 unusedModulePaths=()
@@ -103,7 +105,7 @@ BEGIN {
     FS = "'$delimiter'";
 }
 
-/^import.+from/{
+/^import.+from/ {
     split($0, splited_line, FS);
     module_path = splited_line[2];
 
@@ -124,7 +126,7 @@ splitter='
 
 replacer='
 {
-    result = gensub(before, after, "g", $0);
+    gsub(before, after, $0);
     print(result);
 }
 '
@@ -162,7 +164,20 @@ for filePath in `find $directoryPath -type f`; do
     fileName=$(echo $filePath | awk "$splitter")
     fileNameWithoutExtension=${fileName%.*}
 
-    # If the file is in the excluded list, skip it
+    # Ignore the target directory
+    for ignoreDirectory in ${ignoreDirectories[@]}; do
+        if [[ "$filePath" == *${ignoreDirectory}* ]]; then
+            echo $YELLOW"Skip: $filePath"$NO_COLOR
+            continue 2
+        fi
+    done
+
+    # Ignore defined target files
+    if [[ ${ignoreFiles[@]} =~ $fileName ]]; then
+        continue
+    fi
+
+    # Ignore the target file specified from the command line.
     if [[ ${excludeFiles[@]} =~ $fileName ]]; then
         continue
     fi
@@ -171,7 +186,7 @@ for filePath in `find $directoryPath -type f`; do
     for unusedModulePath in ${unusedModulePaths[@]}; do
         if [[ $fileNameWithoutExtension == $unusedModulePath ]]; then
             if [ "$fileNameWithoutExtension" != "index" ]; then
-                coloredFileName="${YELLOW}$fileName${NC}"
+                coloredFileName="${YELLOW}$fileName${NO_COLOR}"
                 coloredFilePath=$(echo "$filePath" | awk -v before=$fileName -v after=$coloredFileName "$replacer")
 
                 # echo $coloredFilePath # for debugging
