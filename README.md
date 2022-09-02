@@ -1,4 +1,4 @@
-# Unsed Module Extractor
+<h1 align="center">Unsed Module Extractor</h1>
 
 ## Usage
 
