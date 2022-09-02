@@ -41,8 +41,8 @@ delimiter="'"                # Use single quotes by default
 outputFileName="unused.txt"  # default output file name
 confirm=false                # default is not to confirm deletion
 
-ignoreFiles=("env.d.ts")     # Ignore files
-ignoreDirectories=("pages")  # Ignore directories
+IGNORE_FILES=("env.d.ts")    # Ignore files
+IGNORE_DIRS=("pages")        # Ignore directories
 usingModulePaths=()
 targetFilePaths=()
 unusedModulePaths=()
@@ -165,7 +165,7 @@ for filePath in `find $directoryPath -type f`; do
     fileNameWithoutExtension=${fileName%.*}
 
     # Ignore the target directory
-    for ignoreDirectory in ${ignoreDirectories[@]}; do
+    for ignoreDirectory in ${IGNORE_DIRS[@]}; do
         if [[ "$filePath" == *${ignoreDirectory}* ]]; then
             echo $YELLOW"Skip: $filePath"$NO_COLOR
             continue 2
@@ -173,7 +173,7 @@ for filePath in `find $directoryPath -type f`; do
     done
 
     # Ignore defined target files
-    if [[ ${ignoreFiles[@]} =~ $fileName ]]; then
+    if [[ ${IGNORE_FILES[@]} =~ $fileName ]]; then
         continue
     fi
 
