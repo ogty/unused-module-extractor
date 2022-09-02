@@ -5,7 +5,7 @@
 #     Unused files are written to "unsed.txt" with absolute paths.
 #     It will identify unused components in the following ways:
 #
-#         1. Match any extension of ".js", ".jsx", ".ts", ".tsx".
+#         1. Match any extension of ".js", ".jsx", ".ts", ".tsx" ".astro" ".vue" ".svelte".
 #         2. Matching file is called in the form of "import from".
 #         3. Obtains the characters after "from" and determines if they match the file name.
 #            If the file name is "index", do not include the file.
@@ -44,7 +44,7 @@ confirm=false               # default is not to confirm deletion
 usingModulePaths=()
 targetFilePaths=()
 unusedModulePaths=()
-targetExtensions=(".js" ".jsx" ".ts" ".tsx")
+targetExtensions=(".js" ".jsx" ".ts" ".tsx" ".astro" ".vue" ".svelte")
 
 while [ $# -gt 0 ]; do
     case "$1" in
