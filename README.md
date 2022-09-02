@@ -11,7 +11,7 @@ $ source ~/unused-module-extractor/setup.sh
 ## Usage
 
 ```zsh
-$ source main.sh [options] <directory-path>
+$ unused [options] <directory-path>
 ```
 
 ## Options
