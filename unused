@@ -105,7 +105,7 @@ BEGIN {
     FS = "'$delimiter'";
 }
 
-/^import.+from/ {
+/^(\t| ){1,}import.+from/ {
     split($0, splited_line, FS);
     module_path = splited_line[2];
 
