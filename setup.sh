@@ -1,4 +1,4 @@
 currentDirectory=$(cd $(dirname $0);pwd)
 echo 'export PATH="$PATH:'$currentDirectory\" >> ~/.zshrc
 source ~/.zshrc
-sudo chmod 755 $currentDirectory/unused
+sudo chmod +x $currentDirectory/unused
